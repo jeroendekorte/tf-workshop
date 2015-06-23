@@ -22,7 +22,7 @@ resource "cloudstack_network_acl_rule" "default-acl-rule" {
 
   rule {
     action = "allow"
-    source_cidr  = "95.142.96.53/32" # SBPVISITOR 
+    source_cidr  = "83.84.22.34/32" # SBPVISITOR 
     protocol = "tcp"
     ports = ["22", "80"]
     traffic_type = "ingress"
@@ -49,4 +49,31 @@ resource "cloudstack_instance" "webserver" {
     template = "${var.compute_template}"
     zone ="${var.zone}"
     expunge = true    
+
+    connection {
+        user = "bootstrap"
+        key_file = "../../bootstrap.key"
+        host = "${cloudstack_ipaddress.default.ipaddress}"
+    }
+
+    provisioner "remote-exec" {
+        inline = ["sudo yum install httpd -y"]
+    }
+}
+
+resource "cloudstack_port_forward" "default" {
+  ipaddress = "${cloudstack_ipaddress.default.ipaddress}"
+
+  forward {
+    protocol = "tcp"
+    private_port = 22
+    public_port = 22
+    virtual_machine = "webserver"
+  }
+
+  depends_on = ["cloudstack_instance.webserver"]
+}
+
+output "ip" {
+    value = "${cloudstack_ipaddress.default.ipaddress}"
 }
