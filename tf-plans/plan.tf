@@ -13,13 +13,20 @@ resource "cloudstack_vpc" "vpc" {
 }
 
 resource "cloudstack_network_acl" "acl" {
-    name = "DEVOPS_NETWORK_ACL"
+    name = "DEVOPS_NETWORK_ACL_WEB"
     vpc = "${cloudstack_vpc.vpc.name}"
 }
 
 resource "cloudstack_network_acl_rule" "default-acl-rule" {
   aclid = "${cloudstack_network_acl.acl.id}"
 
+  rule {
+    action = "allow"
+    source_cidr  = "83.84.22.34/32" # HOME 
+    protocol = "tcp"
+    ports = ["22", "80"]
+    traffic_type = "ingress"
+  }
   rule {
     action = "allow"
     source_cidr  = "95.142.96.53/32" # SBPVISITOR 
@@ -30,7 +37,7 @@ resource "cloudstack_network_acl_rule" "default-acl-rule" {
 }
 
 resource "cloudstack_network" "network" {
-    name = "DEVOPS_NETWORK"
+    name = "DEVOPS_NETWORK_WEB"
     cidr = "10.10.0.0/28"
     network_offering = "${var.offering_network}"
     zone = "${var.zone}"
@@ -77,6 +84,7 @@ resource "cloudstack_port_forward" "default" {
     provisioner "remote-exec" {
         inline = [
         "sudo yum install httpd -y",
+        "sudo yum install php-mysql -y",
         "sudo service httpd start",
         "sudo chmod 777 /var/www/html"
         ]

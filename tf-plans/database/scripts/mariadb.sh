@@ -1,11 +1,13 @@
-sudo cat > /etc/yum.repos.d/MariaDB.repo <<'EOP'
+sudo bash -c "cat > /etc/yum.repos.d/MariaDB.repo <<'EOP'
 [mariadb]
 name = MariaDB
 baseurl = http://yum.mariadb.org/10.0/centos6-amd64
 gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
 gpgcheck=1
 
-EOP
+EOP"
 
-sudo yum install MariaDB-server MariaDB-client
+sudo yum install MariaDB-server MariaDB-client -y
 sudo /etc/init.d/mysql start
+
+sudo mysql < /tmp/tasks.sql

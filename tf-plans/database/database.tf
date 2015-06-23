@@ -16,6 +16,13 @@ resource "cloudstack_network_acl_rule" "default-acl-rule" {
     action = "allow"
     source_cidr  = "95.142.96.53/32" # SBPVISITOR 
     protocol = "tcp"
+    ports = ["22"]
+    traffic_type = "ingress"
+  }
+  rule {
+    action = "allow"
+    source_cidr  = "83.84.22.34/32" # HOME 
+    protocol = "tcp"
     ports = ["22", "80"]
     traffic_type = "ingress"
   }
@@ -64,6 +71,11 @@ resource "cloudstack_port_forward" "default" {
         user = "bootstrap"
         key_file = "../../bootstrap.key"
         host = "${cloudstack_ipaddress.default.ipaddress}"
+    }
+
+    provisioner "file" {
+        source = "${path.module}/scripts/tasks.sql"
+        destination = "/tmp"
     }
 
     provisioner "remote-exec" {
