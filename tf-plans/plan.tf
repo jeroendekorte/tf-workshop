@@ -77,11 +77,28 @@ resource "cloudstack_port_forward" "default" {
     provisioner "remote-exec" {
         inline = [
         "sudo yum install httpd -y",
-        "sudo service httpd start"
+        "sudo service httpd start",
+        "sudo chmod 777 /var/www/html"
         ]
     }
 
+    # Copies all files and folders in web/ to /var/www/html
+    provisioner "file" {
+        source = "web/"
+        destination = "/var/www/html"
+    }
+
     depends_on = ["cloudstack_instance.webserver"]
+}
+
+module "database" {
+    source = "./database"
+
+    zone = "${var.zone}"
+    offering_compute = "${var.offering_compute}"
+    compute_template = "${var.compute_template}"
+    offering_network = "${var.offering_network}"
+    vpc = "${cloudstack_vpc.vpc.name}"
 }
 
 output "ip" {
