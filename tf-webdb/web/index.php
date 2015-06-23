@@ -1,7 +1,7 @@
 <?php
 $username = "demo";
 $password = "password";
-$hostname = ""; 
+$hostname = "dbserver"; 
 
 //connection to the database
 $dbhandle = mysql_connect($hostname, $username, $password) 

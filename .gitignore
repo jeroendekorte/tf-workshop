@@ -2,3 +2,4 @@
 variables.tf
 *tfstate*
 .terraform
+.DS_Store
