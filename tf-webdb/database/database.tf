@@ -75,7 +75,7 @@ resource "cloudstack_port_forward" "default" {
 
     provisioner "file" {
         source = "${path.module}/scripts/tasks.sql"
-        destination = "/tmp"
+        destination = "/tmp/tasks.sql"
     }
 
     provisioner "remote-exec" {
@@ -83,4 +83,8 @@ resource "cloudstack_port_forward" "default" {
     }
 
     depends_on = ["cloudstack_instance.dbserver"]
+}
+
+output "dbserver_ip" {
+    value = "cloudstack_instance.dbserver.ipaddress"
 }
