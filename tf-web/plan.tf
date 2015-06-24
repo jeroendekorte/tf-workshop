@@ -55,6 +55,7 @@ resource "cloudstack_instance" "webserver" {
     network = "${cloudstack_network.network.name}"
     template = "${var.compute_template}"
     zone ="${var.zone}"
+    expunge = true    
 }
 
 resource "cloudstack_port_forward" "default" {
