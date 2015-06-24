@@ -23,4 +23,5 @@ INSERT INTO `tasks` (`id`, `task`, `status`, `created_at`) VALUES
 (3, 'Find bugs', 2, 1390817659),
 (4, 'Test in small devices', 2, 1390818389);
 
-GRANT ALL PRIVILEGES ON angularcode_task.* TO 'demo'@'%' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON *.* TO 'demo'@'10.10.0.%' IDENTIFIED BY 'password';
+FLUSH PRIVILEGES;

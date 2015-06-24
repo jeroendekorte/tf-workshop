@@ -87,7 +87,8 @@ resource "cloudstack_port_forward" "default" {
         "sudo yum install php php-mysql -y",
         "sudo service httpd start",
         "sudo chmod 777 /var/www/html",
-        "sudo echo \"${module.database.dbserver_ip} dbserver\" >> /etc/hosts"
+        "sudo bash -c 'echo \"${module.database.dbserver_ip} dbserver\" >> /etc/hosts'",
+        "sudo setsebool -P httpd_can_network_connect_db 1"
         ]
     }
 
