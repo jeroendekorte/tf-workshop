@@ -22,16 +22,16 @@ resource "cloudstack_network_acl_rule" "default-acl-rule" {
 
   rule {
     action = "allow"
-    source_cidr  = "83.84.22.34/32" # HOME 
+    source_cidr  = "95.142.96.53/32" 
     protocol = "tcp"
-    ports = ["22", "80"]
+    ports = ["22"]
     traffic_type = "ingress"
   }
   rule {
     action = "allow"
-    source_cidr  = "95.142.96.53/32" # SBPVISITOR 
+    source_cidr  = "95.142.96.53/32" 
     protocol = "tcp"
-    ports = ["22", "80"]
+    ports = ["80"]
     traffic_type = "ingress"
   }
 }
@@ -86,8 +86,8 @@ resource "cloudstack_port_forward" "default" {
         "sudo yum install httpd -y",
         "sudo yum install php-mysql -y",
         "sudo service httpd start",
-        "sudo chmod 777 /var/www/html",
-        "echo \"${module.database.dbserver_ip} dbserver\" >> /etc/hosts"
+        "sudo chmod 777 /var/www/html"
+        #"sudo echo \"${module.database.dbserver_ip} dbserver\" >> /etc/hosts"
         ]
     }
 
