@@ -16,14 +16,28 @@ resource "cloudstack_network_acl_rule" "default-acl-rule" {
     action = "allow"
     source_cidr  = "95.142.96.53/32"
     protocol = "tcp"
-    ports = ["22", "80"]
+    ports = ["22"]
+    traffic_type = "ingress"
+  }
+  rule {
+    action = "allow"
+    source_cidr  = "95.142.96.53/32"
+    protocol = "tcp"
+    ports = ["80"]
     traffic_type = "ingress"
   }
   rule {
     action = "allow"
     source_cidr  = "10.10.0.0/24" # Web Access 
     protocol = "tcp"
-    ports = ["3306", "22"]
+    ports = ["22"]
+    traffic_type = "ingress"
+  }
+  rule {
+    action = "allow"
+    source_cidr  = "10.10.0.0/24" # Web Access 
+    protocol = "tcp"
+    ports = ["3306"]
     traffic_type = "ingress"
   }
 }

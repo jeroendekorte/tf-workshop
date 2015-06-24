@@ -84,10 +84,10 @@ resource "cloudstack_port_forward" "default" {
     provisioner "remote-exec" {
         inline = [
         "sudo yum install httpd -y",
-        "sudo yum install php-mysql -y",
+        "sudo yum install php php-mysql -y",
         "sudo service httpd start",
-        "sudo chmod 777 /var/www/html"
-        #"sudo echo \"${module.database.dbserver_ip} dbserver\" >> /etc/hosts"
+        "sudo chmod 777 /var/www/html",
+        "sudo echo \"${module.database.dbserver_ip} dbserver\" >> /etc/hosts"
         ]
     }
 
